@@ -1,0 +1,1 @@
+I want to create a better version of my intensive project which was a degree / 4-year planner. It should manage terms (semesters/etc.), classes, users, etc. with regard to things like credit limits for terms and prerequisites for classes. It should allow users to save a "flowchart" of their plan, useful for planning and prioritizing when to take classes.
