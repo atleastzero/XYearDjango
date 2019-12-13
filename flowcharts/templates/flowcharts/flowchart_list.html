@@ -1,0 +1,19 @@
+{% extends "partials/base.html" %} {% block content %}
+<h3>
+    Flowcharts {% if flowcharts %}
+    <small class="text-muted">
+        ({{ flowcharts|length }} Flowchart{{ flowcharts|length|pluralize:"s" }})
+    </small> {% endif %}
+</h3>
+
+<hr> {% if flowcharts %}
+<div class="card-columns">
+    {% for flowchart in flowcharts %}
+    <p>{{ flowchart.name }}</p>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-primary" role="alert">
+    No flowcharts to display.
+</div>
+{% endif %} {% endblock %}

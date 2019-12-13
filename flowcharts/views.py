@@ -5,7 +5,7 @@ from flowcharts.models import Flowchart
 
 class FlowchartListView(ListView):
     model = Flowchart
-    template_name='flowchart_list.html'
+    template_name='flowcharts/flowchart_list.html'
 
     def get(self, request):
         flowcharts = self.get_queryset().all().order_by("-last_updated")
