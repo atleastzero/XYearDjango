@@ -1,10 +1,20 @@
 from django.db import models
 from datetime import datetime
+from django.utils.text import slugify
 
 class Flowchart(models.Model):
     name = models.CharField(max_length=30)
     last_updated = models.DateTimeField(auto_now=True)
-    creates = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    slug = models.CharField(max_length=20, blank=True, editable=False)
+    
+    def save(self, *args, **kwargs):
+        """ Creates a URL safe slug automatically when a new a page is created. """
+        if not self.pk:
+            self.slug = slugify(self.name, allow_unicode=True)
+
+        # Call save on the superclass.
+        return super(Flowchart, self).save(*args, **kwargs)
 
 class Term(models.Model):
     name = models.CharField(max_length=30)

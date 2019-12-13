@@ -11,7 +11,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'flowchart-list' %}"><i class="fas fa-puzzle-piece"></i> Flowcharts</a>
+        <a class="navbar-brand" href="{% url 'flowcharts:flowchart-list' %}"><i class="fas fa-puzzle-piece"></i> Flowcharts</a>
         <form class="form-inline ml-auto">
             {% if user.is_authenticated %}
             <div class="text-white">Hello, <strong>{{ user.username }}</strong>!</div>
