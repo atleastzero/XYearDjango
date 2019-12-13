@@ -18,5 +18,8 @@ class TermAdmin(admin.ModelAdmin):
     list_display = ('name', 'term_slug', 'start_date', 'end_date', 'flowchart')
     inlines = [CourseInline]
 
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('subject', 'code', 'title')
+
 admin.site.register(Flowchart, FlowchartAdmin)
 admin.site.register(Term, TermAdmin)

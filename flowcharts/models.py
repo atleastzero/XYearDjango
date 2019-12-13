@@ -41,7 +41,6 @@ class Course(models.Model):
     title = models.CharField(max_length=30)
     subject = models.CharField(max_length=10)
     code = models.DecimalField(max_digits=10, decimal_places=4)
-    prerequisites = models.ForeignKey('self', on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
     course_slug = models.CharField(max_length=20, blank=True, editable=False)
 

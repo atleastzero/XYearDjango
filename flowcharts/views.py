@@ -77,7 +77,7 @@ class CourseDetailView(DetailView):
     model = Course
 
     def get(self, request, flowchart_slug, term_slug, course_slug):
-        course = get_object_or_404(Term, course_slug__iexact=course_slug)
+        course = get_object_or_404(Course, course_slug__iexact=course_slug)
         return render(request, 'flowcharts/course_detail.html', {
             'course': course
         })
@@ -85,9 +85,9 @@ class CourseDetailView(DetailView):
 class CourseCreateView(CreateView):
     model = Course
 
-    def get(self, request, flowchart_slug, term_slug, *args, **kwargs):
+    def get(self, request, flowchart_slug, *args, **kwargs):
         return render(request, 'flowcharts/course_create.html', {
-            'course': CourseCreateForm()
+            'form': CourseCreateForm()
         })
 
     def post(self, request, flowchart_slug, term_slug, *args, **kwargs):
@@ -95,7 +95,7 @@ class CourseCreateView(CreateView):
         if form.is_valid():
             course = form.save()
             course.save()
-            return redirect("/", flowchart_slug, "/", term_slug, "/", course.course_slug)
+            return redirect("/" + flowchart_slug + "/" + term_slug + "/" + course.course_slug)
         else:
             return render(request, 'flowcharts/course_create.html', {
                 'form': CourseCreateForm(),
