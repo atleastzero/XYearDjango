@@ -16,11 +16,17 @@ class Flowchart(models.Model):
         # Call save on the superclass.
         return super(Flowchart, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 class Term(models.Model):
     name = models.CharField(max_length=30)
     start_date = models.DateField()
     end_date = models.DateField()
     flowchart = models.ForeignKey(Flowchart, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class Course(models.Model):
     title = models.CharField(max_length=30)
@@ -28,3 +34,6 @@ class Course(models.Model):
     code = models.DecimalField(max_digits=10, decimal_places=4)
     prerequisites = models.ForeignKey('self', on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.subject, " ", self.code
