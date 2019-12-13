@@ -3,8 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 
-from flowcharts.models import Flowchart, Term
-from flowcharts.forms import FlowchartCreateForm, TermCreateForm
+from flowcharts.models import Flowchart, Term, Course
+from flowcharts.forms import FlowchartCreateForm, TermCreateForm, CourseCreateForm
 
 class FlowchartListView(ListView):
     model = Flowchart
@@ -27,17 +27,17 @@ class FlowchartDetailView(DetailView):
 class FlowchartCreateView(CreateView):
     model = Flowchart
 
-    def get(self, request, flowchart_slug, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         return render(request, 'flowcharts/flowchart_create.html', {
             'form': FlowchartCreateForm()
         })
 
-    def post(self, request, flowchart_slug, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         form = FlowchartCreateForm(request.POST)
         if form.is_valid():
             flowchart = form.save()
             flowchart.save()
-            return redirect("/", flowchart.slug)
+            return redirect("/", flowchart.flowchart_slug)
         else:
             return render(request, 'flowcharts/flowchart_create.html', {
                 'form': FlowchartCreateForm(),
@@ -56,19 +56,48 @@ class TermDetailView(DetailView):
 class TermCreateView(CreateView):
     model = Term
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, flowchart_slug, *args, **kwargs):
         return render(request, 'flowcharts/term_create.html', {
             'form': TermCreateForm()
         })
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, flowchart_slug, *args, **kwargs):
         form = TermCreateForm(request.POST)
         if form.is_valid():
             term = form.save()
             term.save()
-            return redirect("/", term.flowchart.slug)
+            return redirect("/" + flowchart_slug + "/" + term.term_slug)
         else:
             return render(request, 'flowcharts/term_create.html', {
                 'form': TermCreateForm(),
+                'failure': True
+            })
+
+class CourseDetailView(DetailView):
+    model = Course
+
+    def get(self, request, flowchart_slug, term_slug, course_slug):
+        course = get_object_or_404(Term, course_slug__iexact=course_slug)
+        return render(request, 'flowcharts/course_detail.html', {
+            'course': course
+        })
+
+class CourseCreateView(CreateView):
+    model = Course
+
+    def get(self, request, flowchart_slug, term_slug, *args, **kwargs):
+        return render(request, 'flowcharts/course_create.html', {
+            'course': CourseCreateForm()
+        })
+
+    def post(self, request, flowchart_slug, term_slug, *args, **kwargs):
+        form = CourseCreateForm(request.POST)
+        if form.is_valid():
+            course = form.save()
+            course.save()
+            return redirect("/", flowchart_slug, "/", term_slug, "/", course.course_slug)
+        else:
+            return render(request, 'flowcharts/course_create.html', {
+                'form': CourseCreateForm(),
                 'failure': True
             })

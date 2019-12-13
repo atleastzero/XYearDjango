@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Flowchart, Term
+from .models import Flowchart, Term, Course
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -18,3 +18,8 @@ class TermCreateForm(forms.ModelForm):
             'start_date': DateInput(),
             'end_date': DateInput()
         }
+
+class CourseCreateForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = '__all__'

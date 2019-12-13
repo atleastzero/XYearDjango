@@ -2,8 +2,8 @@
 <h3>
     You are looking at term {{ term.name }}!
 </h3>
-{% if flowchart.term_set.all.exists %}
-<a class="btn btn-success ml-4" href="/{{ term.flowchart.slug }}/{{ term.slug }}/create_course">Create another course!</a>
+{% if term.course_set.all.exists %}
+<a class="btn btn-success ml-4" href="/{{ term.flowchart.flowchart_slug }}/{{ term.term_slug }}/create_course">Create another course!</a>
 <h4>Courses</h4>
 <table class="table">
     <thead>
@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         {% for course in term.course_set.all %}
-        <a href="/{{ term.flowchart.slug }}/{{ term.slug }}/{{ course.slug }}">
+        <a href="/{{ term.flowchart.flowchart_slug }}/{{ term.term_slug }}/{{ course.course_slug }}">
             <tr>
                 <td>{{ course.subject }}</td>
                 <td>{{ course.code }}</td>
@@ -25,4 +25,4 @@
         {% endfor %}
     </tbody>
 </table> {% else %}
-<a class="btn btn-success ml-4" href="/{{ term.flowchart.slug }}/{{ term.slug }}/create_course">Create first course!</a> {% endif %} {% endblock %}
+<a class="btn btn-success ml-4" href="/{{ term.flowchart.flowchart_slug }}/{{ term.term_slug }}/create_course">Create first course!</a> {% endif %} {% endblock %}

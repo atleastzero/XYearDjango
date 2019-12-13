@@ -3,7 +3,7 @@
     You are looking at flowchart {{ flowchart.name }}!
 </h3>
 {% if flowchart.term_set.all.exists %}
-<a class="btn btn-success ml-4" href="/{{ flowchart.slug }}/create_term">Create another term!</a>
+<a class="btn btn-success ml-4" href="/{{ flowchart.flowchart_slug }}/create_term">Create another term!</a>
 <h4>Terms</h4>
 <table class="table">
     <thead>
@@ -15,10 +15,10 @@
         {% for term in flowchart.term_set.all %}
         <tr>
             <td>
-                <p><a href="/{{ flowchart.slug }}/{{ term.slug }}">{{ term.name }}</a></p>
+                <p><a href="/{{ flowchart.flowchart_slug }}/{{ term.term_slug }}">{{ term.name }}</a></p>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table> {% else %}
-<a class="btn btn-success ml-4" href="/{{ flowchart.slug }}/create_term">Create first term!</a> {% endif %} {% endblock %}
+<a class="btn btn-success ml-4" href="/{{ flowchart.flowchart_slug }}/create_term">Create first term!</a> {% endif %} {% endblock %}
