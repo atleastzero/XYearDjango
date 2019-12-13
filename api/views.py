@@ -1,18 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 
-from flowcharts.models import Flowchart, Term, Course
-from api.serializers import FlowchartSerializer, TermSerializer, CourseSerializer
+from flowcharts.models import Flowchart
+from api.serializers import FlowchartSerializer
 
-class FlowchartList(APIView):
-    def get(self, request):
-        flowcharts = Flowchart.objects.all()[:20]
-        data = FlowchartSerializer(flowcharts, many=True).data
-        return Response(data)
+class FlowchartList(ListCreateAPIView):
+    queryset = Flowchart.objects.all()
+    serializer_class = FlowchartSerializer
 
-class FlowchartDetail(APIView):
-    def get(self, request, pk):
-        flowchart = get_object_or_404(Flowchart, pk=pk)
-        data = FlowchartSerializer(flowchart).data
-        return Response(data)
+class FlowchartDetail(RetrieveDestroyAPIView):
+    queryset = Flowchart.objects.all()
+    serializer_class = FlowchartSerializer
