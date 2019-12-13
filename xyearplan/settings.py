@@ -133,3 +133,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
  
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+if os.getenv('IS_ON_HEROKU', False):
+    STATICFILE_DIRECTORY = 'static'
+else:
+    STATICFILE_DIRECTORY = 'static/assets'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, STATICFILE_DIRECTORY)
+]

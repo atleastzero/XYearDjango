@@ -1,6 +1,6 @@
 {% extends "partials/base.html" %} {% block content %}
 <h3>
-    You are looking at {{ flowchart.name }}!
+    You are looking at flowchart {{ flowchart.name }}!
 </h3>
 {% if flowchart.term_set.all.exists %}
 <a class="btn btn-success ml-4" href="/{{ flowchart.slug }}/create_term">Create another term!</a>
