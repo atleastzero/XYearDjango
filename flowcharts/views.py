@@ -3,8 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 
-from flowcharts.models import Flowchart
-from flowcharts.forms import FlowchartCreateForm
+from flowcharts.models import Flowchart, Term
+from flowcharts.forms import FlowchartCreateForm, TermCreateForm
 
 class FlowchartListView(ListView):
     model = Flowchart
@@ -18,8 +18,8 @@ class FlowchartListView(ListView):
 class FlowchartDetailView(DetailView):
     model = Flowchart
 
-    def get(self, request, slug):
-        flowchart = get_object_or_404(Flowchart, slug__iexact=slug)
+    def get(self, request, flowchart_slug):
+        flowchart = get_object_or_404(Flowchart, flowchart_slug__iexact=flowchart_slug)
         return render(request, 'flowcharts/flowchart_detail.html', {
             'flowchart': flowchart
         })
@@ -27,19 +27,48 @@ class FlowchartDetailView(DetailView):
 class FlowchartCreateView(CreateView):
     model = Flowchart
 
-    def get(self, request, *args, **kwargs):
-        return render(request, 'flowcharts/create.html', {
+    def get(self, request, flowchart_slug, *args, **kwargs):
+        return render(request, 'flowcharts/flowchart_create.html', {
             'form': FlowchartCreateForm()
         })
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, flowchart_slug, *args, **kwargs):
         form = FlowchartCreateForm(request.POST)
         if form.is_valid():
             flowchart = form.save()
             flowchart.save()
             return redirect("/", flowchart.slug)
         else:
-            return render(request, 'flowcharts/create.html', {
+            return render(request, 'flowcharts/flowchart_create.html', {
                 'form': FlowchartCreateForm(),
+                'failure': True
+            })
+
+class TermDetailView(DetailView):
+    model = Term
+
+    def get(self, request, flowchart_slug, term_slug):
+        term = get_object_or_404(Term, term_slug__iexact=term_slug)
+        return render(request, 'flowcharts/term_detail.html', {
+            'term': term
+        })
+
+class TermCreateView(CreateView):
+    model = Term
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'flowcharts/term_create.html', {
+            'form': TermCreateForm()
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = TermCreateForm(request.POST)
+        if form.is_valid():
+            term = form.save()
+            term.save()
+            return redirect("/", term.flowchart.slug)
+        else:
+            return render(request, 'flowcharts/term_create.html', {
+                'form': TermCreateForm(),
                 'failure': True
             })

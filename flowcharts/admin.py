@@ -11,11 +11,11 @@ class TermInline(admin.StackedInline):
     extra = 0
 
 class FlowchartAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'created', 'last_updated')
+    list_display = ('name', 'flowchart_slug', 'created', 'last_updated')
     inlines = [TermInline]
 
 class TermAdmin(admin.ModelAdmin):
-    list_display = ('name', 'start_date', 'end_date', 'flowchart')
+    list_display = ('name', 'term_slug', 'start_date', 'end_date', 'flowchart')
     inlines = [CourseInline]
 
 admin.site.register(Flowchart, FlowchartAdmin)

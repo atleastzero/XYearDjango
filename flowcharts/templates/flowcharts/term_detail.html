@@ -1,0 +1,28 @@
+{% extends "partials/base.html" %} {% block content %}
+<h3>
+    You are looking at {{ term.name }}!
+</h3>
+{% if flowchart.term_set.all.exists %}
+<a class="btn btn-success ml-4" href="/{{ term.flowchart.slug }}/{{ term.slug }}/create_course">Create another course!</a>
+<h4>Courses</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in term.course_set.all %}
+        <a href="/{{ term.flowchart.slug }}/{{ term.slug }}/{{ course.slug }}">
+            <tr>
+                <td>{{ course.subject }}</td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.title }}</td>
+            </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table> {% else %}
+<a class="btn btn-success ml-4" href="/{{ term.flowchart.slug }}/{{ term.slug }}/create_course">Create first course!</a> {% endif %} {% endblock %}
